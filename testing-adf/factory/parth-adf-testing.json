@@ -1,0 +1,9 @@
+{
+	"name": "parth-adf-testing",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "ce891533-7e44-4180-90a8-7f53e9cfc7b2",
+		"tenantId": "dc304815-8478-486c-9d0e-ea5437aba38f"
+	}
+}
