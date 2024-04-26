@@ -51,7 +51,6 @@ jobs:
         with:
           name: ExportedArmTemplate # (5) Artifact name 
 
-
       - name: Log in with Azure
         uses: azure/login@v1
         with:
@@ -66,42 +65,4 @@ jobs:
           armTemplateParametersFile: ARMTemplateParametersForFactory.json # (9) ARM template parameters file name ARMTemplateParametersForFactory.json
           #additionalParameters: parthu-adf-qa # (10) Parameters which will be replaced in the ARM template. Expected format 'key1=value key2=value keyN=value'. At the minimum here you should provide the target ADF name parameter. Check the ARMTemplateParametersForFactory.json file for all the parameters that are expected in your scenario
 
-         - name: ADF triggers stop --> Deployment and triggers start step
-           uses: azure/powershell@v1
-           with:
-             inlineScript: |
-            $ResourceGroupName = "${{ vars.DEFAULT_PROPERTIES_RESOURCEGROUP_VALUE1 }}" 
-            $DataFactoryName = "${{ vars.FACTORYNAME1 }}"
-            $Annotations = "LDS" 
-            $Triggers = Get-AzDataFactoryV2Trigger -ResourceGroupName $ResourceGroupName -DataFactoryName $DataFactoryName
-            $stoppedTriggers = $Triggers | Where-Object { $_.Properties.RuntimeState -eq "Stopped" }
-            $startedTriggers = @()
-            
-            foreach ($trigger in $Triggers) {
-             if(($Trigger.Properties.Annotations[0] -eq $Annotations) -and ($Trigger.Properties.RuntimeState -eq "Started"))
-                {
-            # Stop the Triggers that were in "Started" state
-            Stop-AzDataFactoryV2Trigger -ResourceGroupName $resourceGroupName -DataFactoryName $dataFactoryName -Name $trigger.Name -Force
-            $startedTriggers += $trigger.Name
-            Write-Host "Stopped trigger $($trigger.Name)."
-            } elseif ($trigger.Triggerstate -eq "Stopped") {
-                Write-Host "Trigger $($trigger.Name) is already in a stopped state."
-            } else {
-                Write-Host "Trigger $($trigger.Name) is in an unknown state: $($trigger.Triggerstate)."
-            }
-            }
-
-            $password = ConvertTo-SecureString "${{ secrets.SPN_CERT_PASSWORD }}" -asplaintext -force
-            Connect-AzAccount -ApplicationId "${{ secrets.SPN_CLIENT_ID }}" -Tenant "${{ secrets.SPN_TENANT_ID }}"  -CertificatePath '/home/runner/work/_temp/spn.pfx' -CertificatePassword $password 
-            Set-AzContext -Subscription "${{ secrets.SPN_SUBSCRIPTION_ID }}"
-            New-AzResourceGroupDeployment -ResourceGroupName ${{ vars.DEFAULT_PROPERTIES_RESOURCEGROUP_VALUE1 }} -TemplateFile "/home/runner/work/GithubRepostore/GithubRepostore/drop/ARMTemplateForFactory.json" -TemplateParameterFile "/home/runner/work/GithubRepostore/GithubRepostore/drop/ARMTemplateParametersForFactory.json"
-
-            # Start the Triggers that were in "Started" state before stopping
-            foreach ($triggerName in $startedTriggers) {
-                Start-AzDataFactoryV2Trigger -ResourceGroupName ${{ vars.DEFAULT_PROPERTIES_RESOURCEGROUP_VALUE1 }} -DataFactoryName ${{ vars.FACTORYNAME1 }} -Name $triggerName -Force
-                Write-Host "Started trigger $triggerName."
-            }
-
-            Write-Host "Trigger stop, Deployment and start step has been completed."
-          azPSVersion: 'LatestVersion'
-           if: success()
+        
