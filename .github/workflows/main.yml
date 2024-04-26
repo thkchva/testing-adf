@@ -25,13 +25,13 @@ jobs:
         
 # Validates all of the Data Factory resources in the repository. You'll get the same validation errors as when "Validate All" is selected.
     - name: Validate
-      run: npm run build validate ${{github.workspace}}/adf_publish /subscriptions/2e365525-e37e-43da-b869-8a4cc427db0b/resourceGroups/parthu-rg/providers/Microsoft.DataFactory/factories/parth-adf-testing # (2) The validate command needs the root folder location of your repository where all the objects are stored. And the 2nd parameter is the resourceID of the ADF instance 
-      working-directory: ${{github.workspace}}/adf_publish
+      run: npm run build validate ${{github.workspace}}/build /subscriptions/2e365525-e37e-43da-b869-8a4cc427db0b/resourceGroups/parthu-rg/providers/Microsoft.DataFactory/factories/parth-adf-testing # (2) The validate command needs the root folder location of your repository where all the objects are stored. And the 2nd parameter is the resourceID of the ADF instance 
+      working-directory: ${{github.workspace}}/build
  
 
     - name: Validate and Generate ARM template
-      run: npm run build export ${{github.workspace}}/adf_publish /subscriptions/2e365525-e37e-43da-b869-8a4cc427db0b/resourceGroups/parthu-rg/providers/Microsoft.DataFactory/factories/parth-adf-testing "ExportedArmTemplate"  # (3) The build command, as validate, needs the root folder location of your repository where all the objects are stored. And the 2nd parameter is the resourceID of the ADF instance. The 3rd parameter is the exported ARM template artifact name 
-      working-directory: ${{github.workspace}}/adf_publish
+      run: npm run build export ${{github.workspace}}/build /subscriptions/2e365525-e37e-43da-b869-8a4cc427db0b/resourceGroups/parthu-rg/providers/Microsoft.DataFactory/factories/parth-adf-testing "ExportedArmTemplate"  # (3) The build command, as validate, needs the root folder location of your repository where all the objects are stored. And the 2nd parameter is the resourceID of the ADF instance. The 3rd parameter is the exported ARM template artifact name 
+      working-directory: ${{github.workspace}}/build
  
 # In order to leverage the artifact in another job, we need to upload it with the upload action 
     - name: upload artifact
