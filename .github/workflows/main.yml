@@ -55,9 +55,9 @@ jobs:
       - name: Login via Az module
         uses: azure/login@v1
         with:
-          client-id: 26bae6f2-fb4c-4268-94c6-798f7812984e
-          tenant-id: dc304815-8478-486c-9d0e-ea5437aba38f
-          subscription-id: 2e365525-e37e-43da-b869-8a4cc427db0b
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           enable-AzPSSession: true 
 
       - name: data-factory-deploy
@@ -67,4 +67,4 @@ jobs:
           dataFactoryName: parth-adf-qa # (7) your target ADF name
           armTemplateFile: /testing-adf/adf_publish/ARMTemplateForFactory.json # (8) ARM template file name ARMTemplateForFactory.json
           armTemplateParametersFile: /testing-adf/adf_publish/ARMTemplateParametersForFactory.json # (9) ARM template parameters file name ARMTemplateParametersForFactory.json
-         #additionalParameters: parth-adf-qa # (10) Parameters which will be replaced in the ARM template. Expected format 'key1=value key2=value keyN=value'. At the minimum here you should provide the target ADF name parameter. Check the ARMTemplateParametersForFactory.json file for all the parameters that are expected in your scenario
+          additionalParameters: parth-adf-qa # (10) Parameters which will be replaced in the ARM template. Expected format 'key1=value key2=value keyN=value'. At the minimum here you should provide the target ADF name parameter. Check the ARMTemplateParametersForFactory.json file for all the parameters that are expected in your scenario
