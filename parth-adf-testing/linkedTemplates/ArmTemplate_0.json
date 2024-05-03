@@ -157,6 +157,37 @@
 				"[concat(variables('factoryId'), '/datasets/testdata_imput')]",
 				"[concat(variables('factoryId'), '/datasets/testdataset_output')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/demotrigger')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "demopipeline",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Day",
+						"interval": 1,
+						"startTime": "2024-05-03T15:45:00",
+						"timeZone": "India Standard Time",
+						"schedule": {}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/demopipeline')]"
+			]
 		}
 	]
 }
