@@ -57,7 +57,7 @@ jobs:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
 
       - name: data-factory-deploy
-        uses: Azure/data-factory-deploy-action@v3.0.2
+        uses: Azure/data-factory-deploy-action@v1.2.0
         with:
           resourceGroupName: parthu-rg # (6) your target ADF resource group name
           dataFactoryName: parthu-adf-qa # (7) your target ADF name
