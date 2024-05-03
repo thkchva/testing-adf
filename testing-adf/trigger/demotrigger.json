@@ -1,0 +1,17 @@
+{
+	"name": "demotrigger",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Day",
+				"interval": 1,
+				"startTime": "2024-05-03T15:45:00",
+				"timeZone": "India Standard Time"
+			}
+		}
+	}
+}
