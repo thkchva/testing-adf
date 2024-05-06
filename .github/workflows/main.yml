@@ -38,7 +38,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: ExportedArmTemplate # (4) use the same artifact name you used in the previous export step
-        path: ${{github.workspace}}/build/ExportedArmTemplate
+        path: ${{github.workspace}}/testing-adf/build/ExportedArmTemplate
         
   release:
     needs: build
