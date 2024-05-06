@@ -58,6 +58,6 @@ jobs:
       - name: Deploy resources
         uses: Azure/data-factory-deploy-action@v1.2.0
         with:
-          resourceGroupName: ${{ secrets.AZURE_RG }} 
-          dataFactoryName: ${{ secrets.AZURE_DATA_FACTORY }} 
-      
+          resourceGroupName: parthu-rg
+          dataFactoryName: parthu-adf-qa
+
