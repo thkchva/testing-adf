@@ -1,9 +1,7 @@
-name: Deploy ARM template to Azure Data Factory
-
 on:
   push:
     branches:
-      - main
+    - main
 
 jobs:
   build:
