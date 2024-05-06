@@ -61,4 +61,5 @@ jobs:
         with:
           resourceGroupName: parthu-rg
           dataFactoryName: parth-adf-testing
-          armTemplateFile: ARMTemplateParametersForFactory.json
+          armTemplateFile: ARMTemplateForFactory.json
+          armTemplateParametersFile: ARMTemplateParametersForFactory.json
