@@ -55,11 +55,7 @@ jobs:
         uses: azure/login@v1
         with:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
- #Disable Triggers
-      - name: Run Pre-deployment script
-        shell: pwsh
-        run: pwsh -command "./PrePostDeploymentScript.ps1 -armTemplate ${{ vars.ARM_TEMPLATE_FILE }}  -ResourceGroupName ${{ vars.AZURE_RG }} -DataFactoryName ${{ vars.ADF_FACTORYNAME }} -predeployment $true -deleteDeployment $false"
-      
+
       - name: data-factory-deploy
         uses: Azure/data-factory-deploy-action@v1.2.0
         with:
@@ -68,8 +64,3 @@ jobs:
           armTemplateFile: .ARMTemplateForFactory.json # (8) ARM template file name ARMTemplateForFactory.json
           armTemplateParametersFile: ARMTemplateParametersForFactory.json # (9) ARM template parameters file name ARMTemplateParametersForFactory.json
           #additionalParameters: parthu-adf-qa # (10) Parameters which will be replaced in the ARM template. Expected format 'key1=value key2=value keyN=value'. At the minimum here you should provide the target ADF name parameter. Check the ARMTemplateParametersForFactory.json file for all the parameters that are expected in your scenario
- #Enable Triggers
-      - name: Run Post-deployment script
-        shell: pwsh
-        run: pwsh -command "./PrePostDeploymentScript.ps1 -armTemplate ${{ vars.ARM_TEMPLATE_FILE }} -ResourceGroupName ${{ vars.AZURE_RG }} -DataFactoryName ${{ vars.ADF_FACTORYNAME }} -predeployment $false -deleteDeployment $true"
-        
