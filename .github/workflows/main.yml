@@ -55,9 +55,10 @@ jobs:
         uses: azure/login@v1
         with:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
+          enable-AzPSSession: true 
       - name: Deploy resources
         uses: Azure/data-factory-deploy-action@v1.2.0
         with:
           resourceGroupName: parthu-rg
           dataFactoryName: parthu-adf-testing
-
+          armTemplateFile: ARMTemplateParametersForFactory.json
