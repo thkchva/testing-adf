@@ -21,17 +21,17 @@ jobs:
         
     - name: install ADF Utilities package
       run: npm install
-      working-directory: ${{github.workspace}}/build  # (1) provide the folder location of the package.json file
+      working-directory: ${{github.workspace}}/testing-adf/build  # (1) provide the folder location of the package.json file
         
 # Validates all of the Data Factory resources in the repository. You'll get the same validation errors as when "Validate All" is selected.
     - name: Validate
       run: npm run build validate ${{github.workspace}}/testing-adf/ /subscriptions/2e365525-e37e-43da-b869-8a4cc427db0b/resourceGroups/parthu-rg/providers/Microsoft.DataFactory/factories/parth-adf-qa # (2) The validate command needs the root folder location of your repository where all the objects are stored. And the 2nd parameter is the resourceID of the ADF instance 
-      working-directory: ${{github.workspace}}/build
+      working-directory: ${{github.workspace}}/testing-adf/build
  
 
     - name: Validate and Generate ARM template
       run: npm run build export ${{github.workspace}}/testing-adf /subscriptions/2e365525-e37e-43da-b869-8a4cc427db0b/resourceGroups/parthu-rg/providers/Microsoft.DataFactory/factories/parth-adf-qa "ExportedArmTemplate"  # (3) The build command, as validate, needs the root folder location of your repository where all the objects are stored. And the 2nd parameter is the resourceID of the ADF instance. The 3rd parameter is the exported ARM template artifact name 
-      working-directory: ${{github.workspace}}/build
+      working-directory: ${{github.workspace}}/testing-adf/build
  
 # In order to leverage the artifact in another job, we need to upload it with the upload action 
     - name: upload artifact
@@ -65,7 +65,7 @@ jobs:
         with:
           resourceGroupName: parthu-rg # (6) your target ADF resource group name
           dataFactoryName: parthu-adf-qa # (7) your target ADF name
-          armTemplateFile: ARMTemplateForFactory.json # (8) ARM template file name ARMTemplateForFactory.json
+          armTemplateFile: .ARMTemplateForFactory.json # (8) ARM template file name ARMTemplateForFactory.json
           armTemplateParametersFile: ARMTemplateParametersForFactory.json # (9) ARM template parameters file name ARMTemplateParametersForFactory.json
           #additionalParameters: parthu-adf-qa # (10) Parameters which will be replaced in the ARM template. Expected format 'key1=value key2=value keyN=value'. At the minimum here you should provide the target ADF name parameter. Check the ARMTemplateParametersForFactory.json file for all the parameters that are expected in your scenario
  #Enable Triggers
