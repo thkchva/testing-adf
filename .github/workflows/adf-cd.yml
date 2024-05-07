@@ -15,20 +15,40 @@ jobs:
       steps:
     # Authentication
     # Set up the following secrets in your repository: AZURE_CREDENTIALS
+    # Validates all of the Data Factory resources in the repository. You'll get the same validation errors as when "Validate All" is selected.
+        - name: Validate
+          run: npm run build validate ${{github.workspace}}/testing-adf/ /subscriptions/2e365525-e37e-43da-b869-8a4cc427db0b/resourceGroups/parthu-rg/providers/Microsoft.DataFactory/factories/parth-adf-testing # (2) The validate command needs the root folder location of your repository where all the objects are stored. And the 2nd parameter is the resourceID of the ADF instance 
+          working-directory: ${{github.workspace}}/testing-adf/build
+ 
+        - name: Validate and Generate ARM template
+          run: npm run build export ${{github.workspace}}/testing-adf /subscriptions/2e365525-e37e-43da-b869-8a4cc427db0b/resourceGroups/parthu-rg/providers/Microsoft.DataFactory/factories/parth-adf-testing "ExportedArmTemplate"  # (3) The build command, as validate, needs the root folder location of your repository where all the objects are stored. And the 2nd parameter is the resourceID of the ADF instance. The 3rd parameter is the exported ARM template artifact name 
+          working-directory: ${{github.workspace}}/testing-adf/build
+    # In order to leverage the artifact in another job, we need to upload it with the upload action 
+        - name: upload artifact
+          uses: actions/upload-artifact@v3
+          with:
+            name: ExportedArmTemplate # (4) use the same artifact name you used in the previous export step
+            path: ${{github.workspace}}/testing-adf/build/ExportedArmTemplate    
+            
     # we 1st download the previously uploaded artifact so we can leverage it later in the release job     
-      - name: Download a Build Artifact
-        uses: actions/download-artifact@v3.0.2
-        with:
-          name: ExportedArmTemplate # (5) Artifact name  
-      - name: Log in with Azure
-        uses: azure/login@v1
-        with:
+        - name: Download a Build Artifact
+          uses: actions/download-artifact@v3.0.2
+          with:
+            name: ExportedArmTemplate # (5) Artifact name  
+
+    release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+        - name: Log in with Azure
+          uses: azure/login@v1
+          with:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
     
     #Deployment of ARM template    
-      - name: Deploy ARM Template
-        uses: azure/arm-deploy@v1
-        with:
-          resourceGroupName: parthu-rg
-          dataFactoryName: parthu-adf-qa
+        - name: Deploy ARM Template
+          uses: azure/arm-deploy@v1
+           with:
+            resourceGroupName: parthu-rg
+            dataFactoryName: parthu-adf-qa
           
