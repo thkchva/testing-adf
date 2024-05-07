@@ -1,0 +1,30 @@
+on:
+  push:
+    branches:
+      - adf_publish
+  workflow_dispatch:
+    inputs:
+      skipAzModuleInstallation:
+        description: 'Parameters which skip the Az module installation'
+        required: false
+        default: 'false'
+  
+jobs:
+    build-and-deploy-to-test:
+      runs-on: ubuntu-latest
+      steps:
+    # Authentication
+    # Set up the following secrets in your repository: AZURE_CREDENTIALS
+    
+      - name: Log in with Azure
+        uses: azure/login@v1
+        with:
+          creds: '${{ secrets.AZURE_CREDENTIALS }}'
+    
+    #Deployment of ARM template    
+      - name: Deploy ARM Template
+        uses: azure/arm-deploy@v1
+        with:
+          resourceGroupName: parthu-rg
+          dataFactoryName: parthu-adf-qa
+          
