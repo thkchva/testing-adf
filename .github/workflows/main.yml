@@ -60,7 +60,7 @@ jobs:
         uses: Azure/data-factory-deploy-action@v1.2.0
         with:
           resourceGroupName: parthu-rg
-          dataFactoryName: parthu-adf-qa
+          dataFactoryName: parth-adf-testing
           deploymentMode: Incremental
           armTemplateFile: ARMTemplateForFactory.json
           armTemplateParametersFile: ARMTemplateParametersForFactory.json
