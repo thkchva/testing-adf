@@ -15,7 +15,11 @@ jobs:
       steps:
     # Authentication
     # Set up the following secrets in your repository: AZURE_CREDENTIALS
-    
+    # we 1st download the previously uploaded artifact so we can leverage it later in the release job     
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v3.0.2
+        with:
+          name: ExportedArmTemplate # (5) Artifact name  
       - name: Log in with Azure
         uses: azure/login@v1
         with:
