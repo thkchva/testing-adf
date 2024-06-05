@@ -25,7 +25,7 @@ pipeline {
                             sh "pwd"
                             sh 'npm install'
                             sh """
-                                npm run build export /testing-adf /subscriptions/$AZURE_SUBSCRIPTION_ID/resourceGroups/$AZURE_RESOURCE_GROUP/providers/Microsoft.DataFactory/factories/$DATAFACTORY_NAME "armDeploymentArtifact"
+                                npm run build export /home/azureadmin/testing-adf/testing-adf /subscriptions/$AZURE_SUBSCRIPTION_ID/resourceGroups/$AZURE_RESOURCE_GROUP/providers/Microsoft.DataFactory/factories/$DATAFACTORY_NAME "armDeploymentArtifact"
                             """
                         }
                     }
