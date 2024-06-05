@@ -50,7 +50,7 @@ pipeline {
                 script {
                     dir("build") {
                         sh '''
-                            az deployment group create -g $AZURE_RESOURCE_GROUP --template-file armDeploymentArtifact/ARMTemplateForFactory.json --parameters factoryName=parth-adf-qa
+                            az deployment group create -g $AZURE_RESOURCE_GROUP --template-file /home/azureadmin/testing-adf/testing-adf/workspace/pipeline/build/armDeploymentArtifact/ARMTemplateForFactory.json --parameters factoryName=parth-adf-testing
                         '''
                     }
                 }
