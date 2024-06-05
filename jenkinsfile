@@ -39,7 +39,7 @@ pipeline {
             steps {
                 withCredentials([azureServicePrincipal('92a43c0c-fb36-4806-a323-762d33b14aea')]) {
                     sh '''
-                        AZURE_CONFIG_DIR=$WORKSPACE
+                        AZURE_CONFIG_DIR=/home/azureadmin/testing-adf/testing-adf
                         az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID 
                         az account set -s $AZURE_SUBSCRIPTION_ID
                     '''
@@ -52,7 +52,7 @@ pipeline {
                 script {
                     dir("build") {
                         sh '''
-                            az deployment group create -g $AZURE_RESOURCE_GROUP --template-file /home/azureadmin/testing-adf/testing-adf/workspace/pipeline/build/armDeploymentArtifact/ARMTemplateForFactory.json --parameters factoryName=parth-adf-testing
+                            az deployment group create -g $AZURE_RESOURCE_GROUP --template-file ARMTemplateForFactory.json --parameters factoryName=parth-adf-testing
                         '''
                     }
                 }
