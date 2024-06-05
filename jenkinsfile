@@ -3,11 +3,13 @@ pipeline {
     parameters {
         string(name: 'BRANCH', defaultValue: 'main', description: 'Branch to build from')
         string(name: 'AZURE_RESOURCE_GROUP', defaultValue: 'parthu-rg', description: 'Azure Resource Group')
-        string(name: 'DATAFACTORY_NAME', defaultValue: 'parth-adf-testing', description: 'Data Factory Name')
+        string(name: 'DATAFACTORY_NAME', defaultValue: '', description: 'Data Factory Name')
+        choice(name: 'ENVIRONMENT', choices: ['dev','int'], description: 'Select the App to be Deployed')
     }
     environment {
         AZURE_TENANT_ID = 'dc304815-8478-486c-9d0e-ea5437aba38f'
         AZURE_SUBSCRIPTION_ID = '2e365525-e37e-43da-b869-8a4cc427db0b'
+        AZURE_RESOURCE_GROUP = "adf-demo-azure-${ENVIRONMENT}"
     }
     stages {
         stage('Checkout') {
