@@ -35,7 +35,7 @@ pipeline {
         
         stage('Azure Login') {
             steps {
-                withCredentials([azureServicePrincipal('SERVICEPRINCIPALCREDENTIALID')]) {
+                withCredentials([azureServicePrincipal('92a43c0c-fb36-4806-a323-762d33b14aea')]) {
                     sh '''
                         AZURE_CONFIG_DIR=$WORKSPACE
                         az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID 
@@ -50,7 +50,7 @@ pipeline {
                 script {
                     dir("build") {
                         sh '''
-                            az deployment group create -g $AZURE_RESOURCE_GROUP --template-file ARMTemplateForFactory.json --parameters factoryName=$DATAFACTORY_NAME
+                            az deployment group create -g $AZURE_RESOURCE_GROUP --template-file armDeploymentArtifact/ARMTemplateForFactory.json --parameters factoryName=parth-adf-qa
                         '''
                     }
                 }
