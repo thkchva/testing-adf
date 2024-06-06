@@ -26,7 +26,7 @@ pipeline {
                             sh "pwd"
                             sh 'npm install'
                             sh """
-                                npm run build export testing-adf/testing-adf/build /subscriptions/$AZURE_SUBSCRIPTION_ID/resourceGroups/$AZURE_RESOURCE_GROUP/providers/Microsoft.DataFactory/factories/$DATAFACTORY_NAME "armDeploymentArtifact"
+                                npm run build export testing-adf/testing-adf/ /subscriptions/$AZURE_SUBSCRIPTION_ID/resourceGroups/$AZURE_RESOURCE_GROUP/providers/Microsoft.DataFactory/factories/$DATAFACTORY_NAME "armDeploymentArtifact"
                             """
                         }
                     }
@@ -38,7 +38,7 @@ pipeline {
             steps {
                 withCredentials([azureServicePrincipal('92a43c0c-fb36-4806-a323-762d33b14aea')]) {
                     sh '''
-                        AZURE_CONFIG_DIR=testing-adf/testing-adf/build
+                        AZURE_CONFIG_DIR=testing-adf/testing-adf/
                         az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID 
                         az account set -s $AZURE_SUBSCRIPTION_ID
                     '''
