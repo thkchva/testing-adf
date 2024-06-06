@@ -1,24 +1,24 @@
 pipeline {
-    agent agent1
+    agent any
     parameters {
         string(name: 'BRANCH', defaultValue: 'main', description: 'Branch to build from')
         string(name: 'AZURE_RESOURCE_GROUP', defaultValue: 'parthu-rg', description: 'Azure Resource Group')
         string(name: 'DATAFACTORY_NAME', defaultValue: 'parth-adf-testing', description: 'Data Factory Name')
-     }
+    }
     environment {
         AZURE_TENANT_ID = 'dc304815-8478-486c-9d0e-ea5437aba38f'
         AZURE_SUBSCRIPTION_ID = '2e365525-e37e-43da-b869-8a4cc427db0b'
-        AZURE_RESOURCE_GROUP = "parthu-rg"
+        AZURE_RESOURCE_GROUP = "parthu-rg}" // Use parameter value
     }
     stages {
         stage('Checkout') {
             steps {
-                git branch: "main}",
+                git branch: "main", // Fixed the branch value
                 url: 'https://github.com/thkchva/testing-adf.git'
             }
         }
     
-        stage('Create Artifacts'){
+        stage('Create Artifacts') {
             steps {
                 script {
                     nodejs(nodeJSInstallationName: 'npmnode') {
@@ -26,7 +26,7 @@ pipeline {
                             sh "pwd"
                             sh 'npm install'
                             sh """
-                                npm run build export testing-adf/testing-adf/build  /subscriptions/$AZURE_SUBSCRIPTION_ID/resourceGroups/$AZURE_RESOURCE_GROUP/providers/Microsoft.DataFactory/factories/$DATAFACTORY_NAME "armDeploymentArtifact"
+                                npm run build export testing-adf/testing-adf/build /subscriptions/$AZURE_SUBSCRIPTION_ID/resourceGroups/$AZURE_RESOURCE_GROUP/providers/Microsoft.DataFactory/factories/$DATAFACTORY_NAME "armDeploymentArtifact"
                             """
                         }
                     }
@@ -51,7 +51,8 @@ pipeline {
                 script {
                     dir("build") {
                         sh '''
-                            az deployment group create -g $AZURE_RESOURCE_GROUP --template-file armDeploymentArtifact/ARMTemplateForFactory.json --parameters factoryName=parth-adf-testing 
+                            az deployment group create --resource-group parthu-rg --template-file armDeploymentArtifact/ARMTemplateParametersForFactory.json --parameters factoryName=parth-adf-testing
+                        '''
                     }
                 }
             }
