@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent agent1
     parameters {
         string(name: 'BRANCH', defaultValue: 'main', description: 'Branch to build from')
         string(name: 'AZURE_RESOURCE_GROUP', defaultValue: 'parthu-rg', description: 'Azure Resource Group')
@@ -8,7 +8,7 @@ pipeline {
     environment {
         AZURE_TENANT_ID = 'dc304815-8478-486c-9d0e-ea5437aba38f'
         AZURE_SUBSCRIPTION_ID = '2e365525-e37e-43da-b869-8a4cc427db0b'
-        AZURE_RESOURCE_GROUP = "adf-demo-azure-${ENVIRONMENT}"
+        AZURE_RESOURCE_GROUP = "parthu-rg"
     }
     stages {
         stage('Checkout') {
