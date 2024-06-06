@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: "devlop}",
+                git branch: "main}",
                 url: 'https://github.com/thkchva/testing-adf.git'
             }
         }
