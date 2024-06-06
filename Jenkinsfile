@@ -38,7 +38,7 @@ pipeline {
             steps {
                 withCredentials([azureServicePrincipal('92a43c0c-fb36-4806-a323-762d33b14aea')]) {
                     sh '''
-                        AZURE_CONFIG_DIR=testing-adf/testing-adf
+                        AZURE_CONFIG_DIR=$WORKSPACE
                         az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID 
                         az account set -s $AZURE_SUBSCRIPTION_ID
                     '''
